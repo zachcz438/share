@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stanford CS229《Building Large Language Models》3000字摘要</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --card: #fffdf8;
+      --text: #1f2328;
+      --muted: #5b6470;
+      --line: #e6e1d8;
+      --accent: #7c5cff;
+      --accent-soft: rgba(124, 92, 255, 0.08);
+      --quote: #f3efe6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.85;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.25;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+    .lead {
+      font-size: 18px;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      padding: 16px 18px;
+      border-radius: 12px;
+      margin: 22px 0 28px;
+    }
+    p {
+      margin: 0 0 18px;
+      font-size: 17px;
+    }
+    strong { font-weight: 700; }
+    blockquote {
+      margin: 22px 0;
+      padding: 16px 18px;
+      background: var(--quote);
+      border-left: 4px solid #c8b79a;
+      border-radius: 12px;
+      color: #3d3428;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 30px 0;
+    }
+    .footer {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 640px) {
+      .wrap { margin: 20px auto; }
+      .card { padding: 26px 18px; border-radius: 16px; }
+      h1 { font-size: 28px; }
+      p { font-size: 16px; }
+      .lead { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <article class="card">
+      <h1>Stanford CS229《Building Large Language Models》3000字摘要</h1>
+      <div class="meta">
+        原视频：<a href="https://www.youtube.com/watch?v=9vM4p9NN0Ts" target="_blank" rel="noopener noreferrer">YouTube</a><br />
+        基础材料：已整理长版笔记 + 英文自动字幕<br />
+        用途：快速吸收版 summary
+      </div>
+
+      <div class="lead">
+        这节 Stanford CS229 讲座最值得抓住的，不是 Transformer 的技术细节，而是一个更贴近工业现实的总判断：<strong>今天把一个 LLM 真正做出来并做成产品，决定胜负的往往不是“又换了什么新架构”，而是数据、post-training、评估和系统工程。</strong>
+      </div>
+
+      <p>讲者一开始把训练 LLM 拆成五个组成部分：架构、损失与训练算法、数据、评估、系统。这个拆法很重要，因为它在纠正一个流行误解。外界常常把模型进步理解成“结构越来越神”，但从真实工程看，结构只是底盘之一。真正能把模型能力拉开差距的，往往是：你拿什么数据喂它，你怎么定义目标，你怎么知道它变好了，以及你有没有能力把这么大的东西高效地训练和部署出来。</p>
+
+      <p>在 pre-training 部分，讲者先回到语言模型的基本定义。LLM 本质上是在建模 token 序列的概率分布，而 autoregressive language model 的核心就是，给定前文，预测下一个 token，然后不断重复。模型之所以能生成内容，不是因为它先天地“理解世界”，而是因为它学到了一个可采样的分布。这个基础点看似简单，但后面很多问题都从这里长出来，比如为什么生成是串行的，为什么 inference 天生昂贵，为什么 latency 和系统优化会成为核心问题。因为 autoregressive 生成决定了，模型每吐出一个 token，都要依赖前一个 token，这使得生成天然不像并行计算那样轻松。</p>
+
+      <p>讲者对工业现实的一个鲜明判断是：大家都知道 LLM 建立在 Transformer 之上，但实践里真正决定效果的，通常不是再发明一个新结构，而是数据、评估与系统。他明确提到，学术界会把大量精力放在 architecture 和 training algorithm 上，但工业竞争最激烈、最保密、也最有护城河的地方，往往是 data。这点非常关键。公开论文最常展示的是你能讲清楚的那部分，而商业模型最不愿披露的，往往正是最决定性能的部分。也因此，很多“论文我都看懂了，为什么复现不出来”背后的真正答案，不是原理没懂，而是你看到的是显性层，没看到的是分差层。</p>
+
+      <p>在数据问题上，讲者提到当前前沿模型的训练规模已经到十几万亿 tokens 量级，远不是早期公开 benchmark 能代表的。像 The Pile 这样的学术数据集，更像是小规模近似版，而不是真正闭源前沿模型的数据现实。公司不愿细讲数据来源，一方面是竞争问题，另一方面也是版权与法律风险。这意味着，数据不仅是原料，更是能力边界的一部分。</p>
+
+      <p>接着他讲 scaling laws。很多人对 scaling laws 的理解停留在“模型越大越强”，但这节课真正重要的，是它如何改变研发方法。过去的做法更像是在大模型上直接试超参数，代价很高，浪费巨大。scaling laws 的价值在于，你可以先在小模型、不同尺度上做实验，拟合一个外推规律，再去预测在更大算力、更大模型规模下什么配置最优。也就是说，它把“资源分配”从拍脑袋变成了一个更可预测的问题。你不再是拿 10000 张 GPU 去豪赌一个训练方案，而是先在小规模上找到扩展规律，再把真正昂贵的资源押到最可能对的地方。这背后的方法论不只适用于 LLM，而几乎适用于所有高成本实验系统：<strong>先找可外推规律，再投入重资源。</strong></p>
+
+      <p>讲到从 pre-training 到 post-training 的转折时，这节课进入最关键的部分。讲者强调，pre-training 的目标并不等于“做出一个好助手”。一个纯语言模型学到的是互联网文本分布，所以当你给它一个问题，它学到的未必是“给答案”，而可能只是“继续写出一个像互联网里会接在后面的文本”。这就是为什么 GPT-3 和 ChatGPT 看起来像是同一条技术线上延伸出来的产品，但用户体验却像两个物种。<strong>Pre-training 让模型会说话，post-training 才让模型会按人的期望去回答。</strong></p>
+
+      <p>然后是 SFT，也就是 supervised fine-tuning。讲者的一个很重要判断是，SFT 的作用往往不是给模型灌输大量新知识，而是重排行为偏好。SFT 的损失形式本质上仍然是 next-token prediction，并没有和 pre-training 截然不同。真正变化的是数据分布和训练设定。讲者还提到一个很反直觉但很重要的观察：SFT 数据从几千扩到几万，收益未必成比例增加。因为 pre-trained model 早已在互联网里见过大量表达模式，SFT 更多是在告诉模型，“你现在该更像哪一种回答者”“该用哪种方式组织答案”，而不是真的从零教它新世界知识。所以更准确的理解不是“靠 SFT 给模型塞知识”，而是“靠 SFT 把已有能力重新格式化成用户想要的交互方式”。</p>
+
+      <p>这也解释了 Alpaca 这类路线为什么成立。它不是靠少量人工数据真的重新训练出一个会思考的新模型，而是用少量高质量 instruction-response 样本作为种子，再让更强模型扩写出 synthetic data，用来把较小模型拉到一个可交互、可用的形态。换句话说，SFT 最像的是行为塑形，而不是知识注入。</p>
+
+      <p>但 SFT 也有明显边界。讲者提了三个问题。第一，behavior cloning 天生受限于人类“直接写最优答案”的能力，人类未必擅长写最优输出，却往往更擅长比较两个输出谁更好。第二，SFT 甚至可能诱发 hallucination。这个观点很有意思。即便人写的是正确答案，如果模型在 pre-training 阶段并没有见过某个具体事实，它学到的未必是“这个事实是真的”，而可能只是“这种听起来像真的表达方式应该被说出来”。于是它强化的可能是“像真话的形式”，而不一定是“经过校验的真实性”。第三，高质量人工答案数据既慢又贵，规模很难上去。</p>
+
+      <p>这就自然过渡到 RLHF 与 preference learning。这里的核心转变是：不再只让模型模仿人类怎么回答，而是让模型学习“什么回答更受人偏好”。做法是，对同一个 instruction 生成两个答案，让标注者选哪个更好，再通过训练让模型更倾向产生被偏好的那个答案。传统 RLHF 里会先训练一个 reward model，把人类的二元偏好变成连续分数，再用 PPO 之类的强化学习算法去优化生成策略。这个思路理论上很完整，但讲者也很诚实地说，PPO 在真实实现里非常 messy，细节很多，稳定性也难处理。</p>
+
+      <p>于是 DPO 这样的路线就变得非常重要。DPO 的核心思想更直接：提高被偏好答案的概率，降低不被偏好答案的概率。它绕开了 reward model 加 PPO 的复杂链条，把问题尽量重新表述成一个更稳定的优化目标。讲者的判断很明确，DPO 更简单，在实践里往往效果也足够好，因此成为主流之一。这背后其实有一条非常普遍的工程规律：<strong>如果一个复杂的优化问题，能被改写成更稳定、更直接的监督式问题，工业界通常会迅速偏向后者。</strong></p>
+
+      <p>在偏好数据本身上，讲者也没有浪漫化人类标注。他明确指出，比较两个回答哪个更好，其实非常难，人会被长度、形式、语气这些表层因素严重影响，而且不同标注者之间一致性并不高。更现实的是，标注很贵，还涉及伦理问题，尤其是有毒内容审核时。于是又出现了一条自然路径：让更强的 LLM 来替代部分人类做 judge。讲者提到，在他们的实验里，模型和“人类多数意见”的一致性，甚至可能高于人类彼此之间的一致性，而成本则大幅下降。这不意味着模型比人更懂价值，而是说明在一个定义模糊、但表面模式很强的任务里，高一致性的模型裁判非常适合进入工业流水线。</p>
+
+      <p>这也引出 post-training 的评估难题。讲者强调，对齐后的模型已经不适合只用 perplexity 这类传统语言模型指标来评估。因为它不再只是拟合文本分布，而是在做面向用户偏好的策略优化。于是更合理的评估方式变成：给两个模型同一个问题，比较谁的回答更好，让人或模型做偏好判断，再在大量真实问题上累计胜率。这就是 Chatbot Arena 一类方法的意义。但 judge-based evaluation 也不是没有问题，最典型的偏差就是偏爱更长回答。因此评估系统本身也要不断做校正。</p>
+
+      <p>最后讲者用较短时间讲了 systems，但这部分其实极关键。核心结论很直接：今天的 LLM 训练和部署，很多瓶颈不是“算不动”，而是“搬不动”。GPU 擅长高吞吐和矩阵乘法，但不擅长频繁通信与数据搬运。随着算力提升，memory 和 communication 越来越成为主要瓶颈，很多时候 GPU 根本吃不满。这也是为什么低精度训练、mixed precision、operator fusion、torch.compile 这些看起来“只是工程优化”的东西，实际上会对成本和性能产生巨大影响。你可以把这部分理解成，系统工程不是模型之后的配套工，而是模型能力能否真正落地的必要条件。</p>
+
+      <blockquote>
+        如果把整节课压成一句话，我会这样概括：<strong>这不是一节在告诉你“LLM 是 Transformer”的课，而是一节在告诉你“一个真正可用的 LLM 产品，是如何由数据、post-training、评估和系统工程共同塑造出来的课”。</strong>
+      </blockquote>
+
+      <p>我当前的临时立场是，这节课的认知价值很高，尤其适合已经对 LLM 有一些表层理解、但还没有形成工程全景视角的人。它最大的贡献，不是带来某个最新技术细节，而是帮你重新分配注意力，知道今天真正的分差点在哪里。</p>
+
+      <div class="footer">
+        生成时间：2026-04-19 · research-lab-329（棱镜）整理
+      </div>
+    </article>
+  </div>
+</body>
+</html>

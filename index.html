@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zach Share</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --card: #fffdf8;
+      --text: #1f2328;
+      --muted: #66707b;
+      --line: #e7e2d8;
+      --accent: #6f56ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 48px auto;
+      padding: 0 20px;
+    }
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 36px 28px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.04);
+      margin-bottom: 24px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 38px;
+      line-height: 1.2;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 17px;
+      margin: 0;
+    }
+    .section-title {
+      margin: 26px 0 12px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      display: block;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border-color: #d8d0c1;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(111,86,255,0.08);
+      color: var(--accent);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .desc {
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Zach Share</h1>
+      <p class="sub">一个用来分享文章、总结、页面和静态前端内容的小仓库。只放可直接浏览的内容，不碰后端。</p>
+    </section>
+
+    <div class="section-title">Articles</div>
+    <div class="grid">
+      <a class="card" href="./articles/stanford-cs229-llm-summary/">
+        <div class="tag">Article</div>
+        <div class="title">Stanford CS229《Building Large Language Models》摘要</div>
+        <div class="desc">基于课程视频整理的中文总结，聚焦数据、post-training、评估与系统工程。</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
