@@ -4,108 +4,398 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zach Share</title>
+  <meta name="description" content="Zach Share，一个分享文章、总结、页面与静态前端内容的公共站点。" />
   <style>
     :root {
-      --bg: #f7f7f4;
-      --card: #fffdf8;
-      --text: #1f2328;
-      --muted: #66707b;
-      --line: #e7e2d8;
-      --accent: #6f56ff;
+      --paper: #f4efe6;
+      --ink: #171512;
+      --muted: #6d655d;
+      --line: rgba(23, 21, 18, 0.14);
+      --card: rgba(255,255,255,0.42);
+      --accent: #a13d2d;
+      --accent-2: #25314a;
+      --shadow: 0 18px 60px rgba(34, 23, 11, 0.08);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(161,61,45,0.08), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(37,49,74,0.10), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.06)),
+        var(--paper);
+      font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", "Songti SC", serif;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(circle at center, black 42%, transparent 92%);
     }
     .wrap {
-      max-width: 980px;
-      margin: 48px auto;
-      padding: 0 20px;
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px 72px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 0 26px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+    .brand {
+      font-weight: 700;
+      color: var(--ink);
     }
     .hero {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 36px 28px;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.04);
-      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: 1.35fr 0.8fr;
+      gap: 34px;
+      padding: 42px 0 34px;
+      align-items: start;
+    }
+    .hero-main {
+      position: relative;
+      padding-right: 10px;
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid rgba(161,61,45,0.28);
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(255,255,255,0.35);
     }
     h1 {
-      margin: 0 0 8px;
-      font-size: 38px;
-      line-height: 1.2;
-    }
-    .sub {
-      color: var(--muted);
-      font-size: 17px;
       margin: 0;
+      font-size: clamp(48px, 8vw, 100px);
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+      text-wrap: balance;
     }
-    .section-title {
-      margin: 26px 0 12px;
-      font-size: 14px;
+    .hero-main p {
+      max-width: 700px;
+      margin: 24px 0 0;
+      font-size: 20px;
+      color: #2f2b27;
+    }
+    .hero-aside {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(23,21,18,0.1);
+      border-radius: 28px;
+      padding: 22px 22px 18px;
+      box-shadow: var(--shadow);
+      transform: translateY(14px);
+    }
+    .aside-kicker {
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: 0.14em;
       color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .aside-title {
+      font-size: 28px;
+      line-height: 1.1;
+      margin: 0 0 12px;
+    }
+    .aside-copy {
+      margin: 0 0 18px;
+      color: #433d37;
+      font-size: 16px;
+    }
+    .aside-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .section {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+    .section-head .hint {
+      color: var(--muted);
+      font-size: 14px;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 20px;
     }
+    .feature,
     .card {
-      display: block;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px;
       text-decoration: none;
       color: inherit;
-      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      display: block;
+      border: 1px solid rgba(23,21,18,0.1);
+      background: rgba(255,255,255,0.44);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
+    .feature:hover,
     .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      border-color: #d8d0c1;
+      transform: translateY(-3px);
+      border-color: rgba(161,61,45,0.28);
+      box-shadow: 0 22px 60px rgba(34, 23, 11, 0.1);
+    }
+    .feature {
+      border-radius: 30px;
+      padding: 28px 26px;
+      min-height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -35% auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(161,61,45,0.12), transparent 66%);
+      pointer-events: none;
+    }
+    .card-stack {
+      display: grid;
+      gap: 16px;
+    }
+    .card {
+      border-radius: 22px;
+      padding: 18px 18px 16px;
     }
     .tag {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(111,86,255,0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--accent);
-      font-size: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
-    .title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    .tag::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+    .title-lg {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.08;
+      max-width: 15ch;
+    }
+    .title-md {
+      margin: 0 0 8px;
+      font-size: 22px;
+      line-height: 1.2;
     }
     .desc {
+      margin: 0;
+      color: #48413b;
+      font-size: 16px;
+    }
+    .meta-line {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(23,21,18,0.08);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .quote-band {
+      margin-top: 26px;
+      padding: 24px 0 8px;
+      border-top: 1px dashed rgba(23,21,18,0.18);
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .quote-band .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      padding-top: 6px;
+    }
+    blockquote {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.35;
+      max-width: 30ch;
+    }
+    .footer {
+      margin-top: 42px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
       color: var(--muted);
       font-size: 14px;
+    }
+    a.inline {
+      color: var(--accent-2);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(37,49,74,0.22);
+    }
+    a.inline:hover { border-bottom-color: var(--accent-2); }
+    @media (max-width: 900px) {
+      .hero,
+      .grid,
+      .quote-band {
+        grid-template-columns: 1fr;
+      }
+      .hero-aside { transform: none; }
+      .title-lg { max-width: 100%; }
+      blockquote { font-size: 22px; }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 16px 56px; }
+      .topbar { padding-bottom: 20px; }
+      .hero { padding: 28px 0 24px; gap: 22px; }
+      .hero-main p { font-size: 17px; }
+      .feature, .card, .hero-aside { border-radius: 22px; }
+      .title-lg { font-size: 28px; }
+      .title-md { font-size: 20px; }
+      .quote-band { padding-top: 20px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <header class="topbar">
+      <div class="brand">Zach Share</div>
+      <div>Essays, pages, tools, notes</div>
+    </header>
+
     <section class="hero">
-      <h1>Zach Share</h1>
-      <p class="sub">一个用来分享文章、总结、页面和静态前端内容的小仓库。只放可直接浏览的内容，不碰后端。</p>
+      <div class="hero-main">
+        <div class="eyebrow">Public reading room</div>
+        <h1>一个持续分享文章、页面与静态作品的小型公开书架。</h1>
+        <p>
+          这里放的是可以直接被浏览的内容，文章、总结、单页专题、静态前端实验都可以进来。
+          不追求像模板站一样整齐划一，更希望每个页面都像一件被认真摆上架的东西。
+        </p>
+      </div>
+
+      <aside class="hero-aside">
+        <div class="aside-kicker">Current focus</div>
+        <h2 class="aside-title">先把一个长期可用的分享底座搭起来。</h2>
+        <p class="aside-copy">
+          这不是单篇文章仓库，而是一个以后可以不断长内容、长页面、长小工具的静态站点。
+          只要不涉及后端，就都可以在这里公开分享。
+        </p>
+        <div class="aside-meta">
+          <div>
+            <strong>Repo</strong><br />
+            github.com/zachcz438/share
+          </div>
+          <div>
+            <strong>Pages</strong><br />
+            zachcz438.github.io/share
+          </div>
+        </div>
+      </aside>
     </section>
 
-    <div class="section-title">Articles</div>
-    <div class="grid">
-      <a class="card" href="./articles/stanford-cs229-llm-summary/">
-        <div class="tag">Article</div>
-        <div class="title">Stanford CS229《Building Large Language Models》摘要</div>
-        <div class="desc">基于课程视频整理的中文总结，聚焦数据、post-training、评估与系统工程。</div>
-      </a>
-    </div>
+    <section class="section">
+      <div class="section-head">
+        <h2>Featured</h2>
+        <div class="hint">目前先放第一篇内容，后面会继续长。</div>
+      </div>
+
+      <div class="grid">
+        <a class="feature" href="./articles/stanford-cs229-llm-summary/">
+          <div class="tag">Article / Lecture Notes</div>
+          <h3 class="title-lg">Stanford CS229《Building Large Language Models》摘要</h3>
+          <p class="desc">
+            基于课程视频与字幕整理的中文总结。重点不在 Transformer 术语本身，而在更接近工业现实的主线：数据、post-training、评估与系统工程，才是把 LLM 做成产品能力的真正分差点。
+          </p>
+          <div class="meta-line">
+            <span>阅读方向：LLM 工程全景</span>
+            <span>格式：单页文章</span>
+          </div>
+        </a>
+
+        <div class="card-stack">
+          <a class="card" href="./articles/stanford-cs229-llm-summary/">
+            <div class="tag">Why it matters</div>
+            <h3 class="title-md">这篇内容的价值，不是新，而是把注意力重新摆正。</h3>
+            <p class="desc">它提醒我们，今天很多模型差距并不来自“又有了什么新结构”，而来自训练材料、后训练流程、评估方法和系统能力。</p>
+          </a>
+
+          <a class="card" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">
+            <div class="tag">Repository</div>
+            <h3 class="title-md">这个站点以后会作为一个通用分享仓库持续更新。</h3>
+            <p class="desc">后续文章、总结、静态页面、前端小工具，都可以按稳定路径继续加进去，而不是每次重建一次。</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="quote-band">
+        <div class="label">Editorial note</div>
+        <blockquote>
+          不把内容堆成档案馆，而是把每一篇真正值得留下来的东西，认真做成一个可被阅读的页面。
+        </blockquote>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>Built for readable public sharing.</div>
+      <div>
+        Source on <a class="inline" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </footer>
   </div>
 </body>
 </html>
