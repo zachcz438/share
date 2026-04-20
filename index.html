@@ -64,6 +64,22 @@
       font-weight: 700;
       color: var(--ink);
     }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+    }
+    .nav a:hover {
+      color: var(--ink);
+      border-bottom-color: rgba(23,21,18,0.28);
+    }
     .hero {
       display: grid;
       grid-template-columns: 1.35fr 0.8fr;
@@ -250,6 +266,47 @@
       gap: 16px;
       flex-wrap: wrap;
     }
+    .list-block {
+      display: grid;
+      gap: 14px;
+    }
+    .list-item {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      padding: 18px 0;
+      border-top: 1px solid rgba(23,21,18,0.08);
+      transition: transform .18s ease, color .18s ease;
+    }
+    .list-item:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    .list-item:hover {
+      transform: translateX(4px);
+      color: var(--ink);
+    }
+    .list-meta {
+      margin-bottom: 6px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+    .list-title {
+      margin: 0 0 6px;
+      font-size: 28px;
+      line-height: 1.16;
+    }
+    .list-desc {
+      margin: 0;
+      color: #48413b;
+      font-size: 16px;
+      max-width: 56ch;
+    }
+    .collections {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
     .quote-band {
       margin-top: 26px;
       padding: 24px 0 8px;
@@ -292,11 +349,13 @@
     @media (max-width: 900px) {
       .hero,
       .grid,
-      .quote-band {
+      .quote-band,
+      .collections {
         grid-template-columns: 1fr;
       }
       .hero-aside { transform: none; }
       .title-lg { max-width: 100%; }
+      .list-title { font-size: 24px; }
       blockquote { font-size: 22px; }
     }
     @media (max-width: 640px) {
@@ -314,86 +373,151 @@
 <body>
   <div class="wrap">
     <header class="topbar">
-      <div class="brand">Zach Share</div>
-      <div>Essays, pages, tools, notes</div>
+      <div class="brand">Prism Share</div>
+      <nav class="nav">
+        <a href="#latest">Latest</a>
+        <a href="#featured">Featured</a>
+        <a href="#collections">Collections</a>
+        <a href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
     </header>
 
     <section class="hero">
       <div class="hero-main">
         <div class="eyebrow">Public reading room</div>
-        <h1>一个持续分享文章、页面与静态作品的小型公开书架。</h1>
+        <h1>一个持续更新的公开分享书架。</h1>
         <p>
-          这里放的是可以直接被浏览的内容，文章、总结、单页专题、静态前端实验都可以进来。
-          不追求像模板站一样整齐划一，更希望每个页面都像一件被认真摆上架的东西。
+          这里放文章、单页专题、静态作品，也放那些值得被认真整理、认真阅读、认真留下来的内容。
+          它不追求像模板站一样整齐划一，但会尽量让每一篇东西，都有被好好摆上架的位置。
         </p>
       </div>
 
       <aside class="hero-aside">
-        <div class="aside-kicker">Current focus</div>
-        <h2 class="aside-title">先把一个长期可用的分享底座搭起来。</h2>
+        <div class="aside-kicker">About this site</div>
+        <h2 class="aside-title">不是临时落点，而是一个会继续长内容的公开入口。</h2>
         <p class="aside-copy">
-          这不是单篇文章仓库，而是一个以后可以不断长内容、长页面、长小工具的静态站点。
-          只要不涉及后端，就都可以在这里公开分享。
+          这个站会持续收录文章、页面、静态前端实验与小型公开作品。
+          重点不是堆积链接，而是把真正值得留下来的东西，做成可以被阅读的页面。
         </p>
         <div class="aside-meta">
           <div>
-            <strong>Repo</strong><br />
-            github.com/zachcz438/share
+            <strong>Focus</strong><br />
+            Essays, pages, tools
           </div>
           <div>
-            <strong>Pages</strong><br />
-            zachcz438.github.io/share
+            <strong>Source</strong><br />
+            github.com/zachcz438/share
           </div>
         </div>
       </aside>
     </section>
 
-    <section class="section">
+    <section class="section" id="featured">
       <div class="section-head">
         <h2>Featured</h2>
-        <div class="hint">目前先放第一篇内容，后面会继续长。</div>
+        <div class="hint">当前最值得先读的内容。</div>
       </div>
 
       <div class="grid">
         <a class="feature" href="./articles/stanford-cs229-llm-summary/">
-          <div class="tag">Article / Lecture Notes</div>
+          <div class="tag">Article / Featured</div>
           <h3 class="title-lg">Stanford CS229《Building Large Language Models》摘要</h3>
           <p class="desc">
-            基于课程视频与字幕整理的中文总结。重点不在 Transformer 术语本身，而在更接近工业现实的主线：数据、post-training、评估与系统工程，才是把 LLM 做成产品能力的真正分差点。
+            基于课程视频与字幕整理的中文总结。重点不在模型结构名词本身，而在更接近工业现实的主线：
+            数据、post-training、评估与系统工程，才是把 LLM 做成产品能力的真正分差点。
           </p>
           <div class="meta-line">
-            <span>阅读方向：LLM 工程全景</span>
-            <span>格式：单页文章</span>
+            <span>文章</span>
+            <span>中文总结</span>
+            <span>LLM 工程</span>
           </div>
         </a>
 
         <div class="card-stack">
           <a class="card" href="./articles/stanford-cs229-llm-summary/">
-            <div class="tag">Why it matters</div>
+            <div class="tag">Why this piece</div>
             <h3 class="title-md">这篇内容的价值，不是新，而是把注意力重新摆正。</h3>
-            <p class="desc">它提醒我们，今天很多模型差距并不来自“又有了什么新结构”，而来自训练材料、后训练流程、评估方法和系统能力。</p>
+            <p class="desc">
+              今天很多模型差距，并不来自“又发明了什么结构”，而来自训练材料、后训练流程、
+              评估方法与系统能力。
+            </p>
           </a>
 
           <a class="card" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">
             <div class="tag">Repository</div>
-            <h3 class="title-md">这个站点以后会作为一个通用分享仓库持续更新。</h3>
-            <p class="desc">后续文章、总结、静态页面、前端小工具，都可以按稳定路径继续加进去，而不是每次重建一次。</p>
+            <h3 class="title-md">这是一个会持续增长的分享仓库，而不是一次性的落地页。</h3>
+            <p class="desc">
+              后续文章、总结、静态页面与前端小工具，都会沿着稳定路径继续加进去。
+            </p>
           </a>
         </div>
       </div>
+    </section>
 
-      <div class="quote-band">
-        <div class="label">Editorial note</div>
-        <blockquote>
-          不把内容堆成档案馆，而是把每一篇真正值得留下来的东西，认真做成一个可被阅读的页面。
-        </blockquote>
+    <section class="section" id="latest">
+      <div class="section-head">
+        <h2>Latest</h2>
+        <div class="hint">最近更新的内容。</div>
+      </div>
+
+      <div class="list-block">
+        <a class="list-item" href="./articles/stanford-cs229-llm-summary/">
+          <div class="list-meta">2026 · Article</div>
+          <h3 class="list-title">Stanford CS229《Building Large Language Models》摘要</h3>
+          <p class="list-desc">
+            关于 LLM 工程全景的一篇课程整理，重点放在数据、后训练、评估与系统能力。
+          </p>
+        </a>
       </div>
     </section>
 
+    <section class="section" id="collections">
+      <div class="section-head">
+        <h2>Collections</h2>
+        <div class="hint">按内容类型浏览。</div>
+      </div>
+
+      <div class="card-stack collections">
+        <div class="card">
+          <div class="tag">Articles</div>
+          <h3 class="title-md">长文、摘要、笔记、评论</h3>
+          <p class="desc">
+            偏重可阅读性，适合系统整理一个主题，也适合留下能被反复回看的文字。
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="tag">Pages</div>
+          <h3 class="title-md">单页专题与可独立分享的页面</h3>
+          <p class="desc">
+            偏重信息编排和视觉表达，用来承载那些不适合写成普通文章的内容。
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="tag">Tools / Experiments</div>
+          <h3 class="title-md">小工具、静态实验与轻量交互作品</h3>
+          <p class="desc">
+            偏重功能性和想法验证，收纳那些可以直接打开、直接体验的前端内容。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-band">
+      <div class="label">Editorial note</div>
+      <blockquote>
+        不把内容做成一排匆忙划过的链接，
+        而是把每一篇真正值得留下来的东西，
+        认真做成一个可被阅读、可被回看、也可被继续引用的页面。
+      </blockquote>
+    </section>
+
     <footer class="footer">
-      <div>Built for readable public sharing.</div>
+      <div>Prism Share, a public shelf for essays, pages, and quiet web work.</div>
       <div>
-        Source on <a class="inline" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">GitHub</a>
+        Built by Zach ·
+        <a class="inline" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </footer>
   </div>
