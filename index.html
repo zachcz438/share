@@ -340,6 +340,9 @@
       color: var(--muted);
       font-size: 14px;
     }
+    .hidden-shell {
+      display: none;
+    }
     a.inline {
       color: var(--accent-2);
       text-decoration: none;
@@ -418,40 +421,7 @@
         <div class="hint">当前最值得先读的内容。</div>
       </div>
 
-      <div class="grid">
-        <a class="feature" href="./articles/stanford-cs229-llm-summary/">
-          <div class="tag">Article / Featured</div>
-          <h3 class="title-lg">Stanford CS229《Building Large Language Models》摘要</h3>
-          <p class="desc">
-            基于课程视频与字幕整理的中文总结。重点不在模型结构名词本身，而在更接近工业现实的主线：
-            数据、post-training、评估与系统工程，才是把 LLM 做成产品能力的真正分差点。
-          </p>
-          <div class="meta-line">
-            <span>文章</span>
-            <span>中文总结</span>
-            <span>LLM 工程</span>
-          </div>
-        </a>
-
-        <div class="card-stack">
-          <a class="card" href="./articles/stanford-cs229-llm-summary/">
-            <div class="tag">Why this piece</div>
-            <h3 class="title-md">这篇内容的价值，不是新，而是把注意力重新摆正。</h3>
-            <p class="desc">
-              今天很多模型差距，并不来自“又发明了什么结构”，而来自训练材料、后训练流程、
-              评估方法与系统能力。
-            </p>
-          </a>
-
-          <a class="card" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">
-            <div class="tag">Repository</div>
-            <h3 class="title-md">这是一个会持续增长的分享仓库，而不是一次性的落地页。</h3>
-            <p class="desc">
-              后续文章、总结、静态页面与前端小工具，都会沿着稳定路径继续加进去。
-            </p>
-          </a>
-        </div>
-      </div>
+      <div id="featured-shell" class="hidden-shell"></div>
     </section>
 
     <section class="section" id="latest">
@@ -460,15 +430,7 @@
         <div class="hint">最近更新的内容。</div>
       </div>
 
-      <div class="list-block">
-        <a class="list-item" href="./articles/stanford-cs229-llm-summary/">
-          <div class="list-meta">2026 · Article</div>
-          <h3 class="list-title">Stanford CS229《Building Large Language Models》摘要</h3>
-          <p class="list-desc">
-            关于 LLM 工程全景的一篇课程整理，重点放在数据、后训练、评估与系统能力。
-          </p>
-        </a>
-      </div>
+      <div id="latest-shell" class="hidden-shell"></div>
     </section>
 
     <section class="section" id="collections">
@@ -477,31 +439,7 @@
         <div class="hint">按内容类型浏览。</div>
       </div>
 
-      <div class="card-stack collections">
-        <div class="card">
-          <div class="tag">Articles</div>
-          <h3 class="title-md">长文、摘要、笔记、评论</h3>
-          <p class="desc">
-            偏重可阅读性，适合系统整理一个主题，也适合留下能被反复回看的文字。
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="tag">Pages</div>
-          <h3 class="title-md">单页专题与可独立分享的页面</h3>
-          <p class="desc">
-            偏重信息编排和视觉表达，用来承载那些不适合写成普通文章的内容。
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="tag">Tools / Experiments</div>
-          <h3 class="title-md">小工具、静态实验与轻量交互作品</h3>
-          <p class="desc">
-            偏重功能性和想法验证，收纳那些可以直接打开、直接体验的前端内容。
-          </p>
-        </div>
-      </div>
+      <div id="collections-shell" class="hidden-shell"></div>
     </section>
 
     <section class="quote-band">
@@ -521,5 +459,86 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    const escapeHtml = (value = "") => value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+
+    const renderFeatured = (item) => {
+      if (!item) return "";
+      const meta = (item.meta || []).map((entry) => `<span>${escapeHtml(entry)}</span>`).join("");
+      return `
+        <div class="grid">
+          <a class="feature" href="${escapeHtml(item.href)}">
+            <div class="tag">${escapeHtml(item.tag || item.type || "Featured")}</div>
+            <h3 class="title-lg">${escapeHtml(item.title)}</h3>
+            <p class="desc">${escapeHtml(item.summary)}</p>
+            <div class="meta-line">${meta}</div>
+          </a>
+
+          <div class="card-stack">
+            <a class="card" href="${escapeHtml(item.href)}">
+              <div class="tag">Why this piece</div>
+              <h3 class="title-md">${escapeHtml(item.whyTitle || item.title)}</h3>
+              <p class="desc">${escapeHtml(item.whySummary || item.summary)}</p>
+            </a>
+
+            <a class="card" href="https://github.com/zachcz438/share" target="_blank" rel="noopener noreferrer">
+              <div class="tag">Repository</div>
+              <h3 class="title-md">这是一个会持续增长的分享仓库，而不是一次性的落地页。</h3>
+              <p class="desc">后续文章、总结、静态页面与前端小工具，都会沿着稳定路径继续加进去。</p>
+            </a>
+          </div>
+        </div>
+      `;
+    };
+
+    const renderLatest = (items = []) => {
+      if (!items.length) return "";
+      return `
+        <div class="list-block">
+          ${items.map((item) => `
+            <a class="list-item" href="${escapeHtml(item.href)}">
+              <div class="list-meta">${escapeHtml(item.year || "")}${item.year && item.type ? " · " : ""}${escapeHtml(item.type || "")}</div>
+              <h3 class="list-title">${escapeHtml(item.title)}</h3>
+              <p class="list-desc">${escapeHtml(item.summary || "")}</p>
+            </a>
+          `).join("")}
+        </div>
+      `;
+    };
+
+    const renderCollections = (items = []) => {
+      if (!items.length) return "";
+      return `
+        <div class="card-stack collections">
+          ${items.map((item) => `
+            <div class="card">
+              <div class="tag">${escapeHtml(item.tag || "Collection")}</div>
+              <h3 class="title-md">${escapeHtml(item.title)}</h3>
+              <p class="desc">${escapeHtml(item.summary || "")}</p>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    };
+
+    fetch('./content-index.json')
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error('Failed to load content index')))
+      .then((data) => {
+        document.getElementById('featured-shell').outerHTML = renderFeatured(data.featured);
+        document.getElementById('latest-shell').outerHTML = renderLatest(data.latest);
+        document.getElementById('collections-shell').outerHTML = renderCollections(data.collections);
+      })
+      .catch(() => {
+        document.getElementById('featured-shell').outerHTML = '';
+        document.getElementById('latest-shell').outerHTML = '';
+        document.getElementById('collections-shell').outerHTML = '';
+      });
+  </script>
 </body>
 </html>

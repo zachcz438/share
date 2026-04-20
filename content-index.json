@@ -1,0 +1,44 @@
+{
+  "site": {
+    "name": "Prism Share",
+    "tagline": "A public shelf for essays, pages, and quiet web work."
+  },
+  "featured": {
+    "slug": "stanford-cs229-llm-summary",
+    "type": "Article",
+    "tag": "Article / Featured",
+    "title": "Stanford CS229《Building Large Language Models》摘要",
+    "href": "./articles/stanford-cs229-llm-summary/",
+    "summary": "基于课程视频与字幕整理的中文总结。重点不在模型结构名词本身，而在更接近工业现实的主线：数据、post-training、评估与系统工程，才是把 LLM 做成产品能力的真正分差点。",
+    "meta": ["文章", "中文总结", "LLM 工程"],
+    "whyTitle": "这篇内容的价值，不是新，而是把注意力重新摆正。",
+    "whySummary": "今天很多模型差距，并不来自“又发明了什么结构”，而来自训练材料、后训练流程、评估方法与系统能力。"
+  },
+  "latest": [
+    {
+      "slug": "stanford-cs229-llm-summary",
+      "year": "2026",
+      "type": "Article",
+      "title": "Stanford CS229《Building Large Language Models》摘要",
+      "href": "./articles/stanford-cs229-llm-summary/",
+      "summary": "关于 LLM 工程全景的一篇课程整理，重点放在数据、后训练、评估与系统能力。"
+    }
+  ],
+  "collections": [
+    {
+      "tag": "Articles",
+      "title": "长文、摘要、笔记、评论",
+      "summary": "偏重可阅读性，适合系统整理一个主题，也适合留下能被反复回看的文字。"
+    },
+    {
+      "tag": "Pages",
+      "title": "单页专题与可独立分享的页面",
+      "summary": "偏重信息编排和视觉表达，用来承载那些不适合写成普通文章的内容。"
+    },
+    {
+      "tag": "Tools / Experiments",
+      "title": "小工具、静态实验与轻量交互作品",
+      "summary": "偏重功能性和想法验证，收纳那些可以直接打开、直接体验的前端内容。"
+    }
+  ]
+}
